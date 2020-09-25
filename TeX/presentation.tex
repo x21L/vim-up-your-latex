@@ -1,0 +1,239 @@
+\documentclass[aspectratio=169]{beamer}
+% setup for the handout
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+% language and font set up
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{tikzsymbols}
+\usepackage{textcomp}
+% additonal packages
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+% listings
+\usepackage{listings}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+firstnumber=1,                   % start line enumeration with line 1000
+frame=single,                    % adds a frame around the code
+keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue},       % keyword style
+language=TeX,                    % the language of the code
+morekeywords={*,...},            % if you want to add more keywords to the set
+numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+numbersep=5pt,                   % how far the line-numbers are from the code
+numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showstringspaces=false,          % underline spaces within strings only
+showtabs=false,                  % show tabs within strings adding particular underscores
+stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+stringstyle=\color{mymauve},     % string literal style
+tabsize=2,                       % sets default tabsize to 2 spaces
+title= title                     % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% inserting picuters
+\newenvironment{MyPicture}[4]{
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[#4]{img/#1}
+    \caption{#2}
+    \label{fig:#3}
+  }
+{\end{figure}}
+% design
+\usetheme{Berlin}
+% \usecolortheme{whale}
+% informations
+\title{How to Vim up your \LaTeX}
+\author{Lukas Wais 11816105 SKZ: 033 521}
+\institute{Wissenschaftliches Schreiben und Layouten anhand von \LaTeX2}
+\date{\today}
+\begin{document}
+% title frame
+\frame{\titlepage}
+% table of content
+\begin{frame}[allowframebreaks]{Table of Contents}
+  \tableofcontents
+\end{frame}
+% introduction
+\section{Introduction}
+\subsection{What is Vim?}
+\begin{frame}{This is Vim}
+  \begin{MyPicture}{vim}{Vim}{Vim}{width=0.4\textwidth}
+  \end{MyPicture}
+\end{frame}
+\begin{frame}{Vim is hard}
+  \begin{MyPicture}{meme}{}{meme}{width=0.4\textwidth}
+  \end{MyPicture}
+\end{frame}
+\begin{frame}{This is Vim}
+  \begin{itemize}
+    \item Vim $=$ Vi improved, it is an improvment over the old editor Vi
+    \item It does have three modes \textbf{normal, visual and insert}
+    \item It does have a really hard learning curve, but it is worth it!
+    \item Configure it with the vimrc file
+  \end{itemize}
+\end{frame}
+\subsection{What do we need?}
+\begin{frame}{Requirements}
+  Please keep in mind: those are only my recommendations. There are various other possibilities.
+  \begin{itemize}
+    \item An Unix like operating system. For running Vim natively.
+    \item vim-latex, the \LaTeX~plugin.
+    \item A PDF reader which supports PDF-TeX Sync. You can use Skim for example.
+    \item gVim
+  \end{itemize}
+\end{frame}
+% Working with Vim
+\section{Working with Vim}
+\subsection{Compiling with Vim}
+\begin{frame}[fragile]{Compile}
+  The fastest way to this is to use one of many vim-latex shortcuts
+  \begin{itemize}
+    \item $\backslash$ll $\ldots$ two lower case L
+    \item You can also set compilation rules. Either with menu TeX-Suit or with the command g:Tex\_CompileRule\_$<$format$>$
+    \item Take a look here:\\ \url{http://vim-latex.sourceforge.net/documentation/latex-suite/compiler-rules.html}
+  \end{itemize}
+\end{frame}
+\subsection{Navigating Code}
+\begin{frame}{Use the Power of Vim to navigate through your code}
+  \begin{itemize}
+    \item Just use the normal Vim commands to move around.
+    \item h $\ldots$ left
+    \item j $\ldots$ down
+    \item k $\ldots$ up
+    \item l $\ldots$ right
+  \end{itemize}
+  \vspace{0.5cm}
+  Those letters may seem arbitary, but just take a look at your keyboard \Winkey
+\end{frame}
+\begin{frame}{Jump Points}
+  vim-latex uses jump points. Everytime you generate something with vim-latex it creates those points. It may be disturbing at the beginning, since you are getting used to it, it becomes really handy
+  \begin{itemize}
+    \item You can jump there in normal mode or even the insert mode.
+    \item The shortcut is \textbf{CTRL + j}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Jump Points}
+  \begin{lstlisting}[caption = Jump Points]
+  \begin{figure}[<+htpb+>]
+    \centering
+    \includegraphics{<+file+>}
+    \caption{<+caption text+>}
+    \label{fig:<+label+>}
+  \end{figure}<++>
+  \end{lstlisting}
+\end{frame}
+
+\subsection{Helpful Shortcuts}
+\begin{frame}{A List of handy Shortcuts}
+  Just type them in, they even work directly in the insert mode.
+  \vspace{0.2cm}
+  \begin{itemize}
+    \item SSE for section
+    \item SSS for subsection
+    \item more section mappings can be found here: \\ \url{http://vim-latex.sourceforge.net/documentation/latex-suite/section-mappings.html}
+    \item EFI for images
+    \item All mappings can be found here: \\ \url{http://vim-latex.sourceforge.net/documentation/latex-suite.html}
+  \end{itemize}
+\end{frame}
+% Setup Guide
+\section{Setup Guide}
+\subsection{Setup}
+\begin{frame}{Recommended Setup}
+  \begin{itemize}
+    \item gVim
+    \item Vundle
+    \item Skim
+    \item vim-latex
+  \end{itemize}
+\end{frame}
+\subsection{Installation}
+\begin{frame}{Installation Steps}
+  \begin{enumerate}
+    \item Install gVim
+    \item Setup Vundle
+    \item Edit your .vimrc file
+    \item Install vim-latex
+    \item Start working
+  \end{enumerate}
+\end{frame}
+\begin{frame}{$\sim$/.vimrc}
+  \begin{MyPicture}{vimrc}{vimrc}{vimrc}{width=0.5\textwidth}
+  \end{MyPicture}
+\end{frame}
+\subsection{Guide}
+\begin{frame}{Download the Complete Guide}
+  \begin{itemize}
+    \item You can find a complete installation guide in the paper on Github.
+      \item \url{https://github.com/x21L/vim-up-your-latex}
+  \end{itemize}
+\end{frame}
+% Vim vs. TeXstudio
+\section{Vim vs. TeXstudio}
+\subsection{Pros}
+\begin{frame}{Vim over TeXstudio}
+  \begin{itemize}
+    \item Really fast
+    \item Great UI
+    \item Extremly customizable
+    \item Nearlly unlimited possibilities
+    \item Versioning vimrc files with git $\rightarrow$ same config on different systems
+  \end{itemize}
+\end{frame}
+\subsection{Cons}
+\begin{frame}{TeXstudio over Vim}
+  \begin{itemize}
+    \item Feature rich
+    \item Easy to use
+    \item Download and go
+    \item Runs easily on every major system
+  \end{itemize}
+\end{frame}
+% Outlook
+\section{Outlook}
+\subsection{Alternatives to vim-latex}
+\begin{frame}{}
+  \begin{itemize}
+    \item vimtex
+    \item Just Vim with latexmk
+    \item latex-box
+    \item Take a look at \url{https://vimawesome.com/?q=latex}
+  \end{itemize}
+\end{frame}
+\subsection{Download it from Github}
+\begin{frame}{}
+  \begin{itemize}
+    \item \url{https://github.com/x21L/vim-up-your-latex}
+    \item You can also find an A4 version of the slides there.
+    \item[]
+    \item You can exit and save with \textbf{:wq}
+  \end{itemize}
+\end{frame}
+\subsection{Live Demo}
+\begin{frame}{}
+  \centering{\huge Demo Time}
+\end{frame}
+\begin{frame}{}
+  \begin{MyPicture}{questions}{Questions}{Questions}{width=0.3\textwidth}
+  \end{MyPicture}
+\end{frame}
+\end{document}
